@@ -193,6 +193,6 @@ cat ~/.docker/config.json
 
 If dockerhub is installed on a ubuntu VM, then use
 ```bash
-docker login --username <user name> --password stdin
+docker login --username <user_name> --password-stdin
 ```
 Once click on enter, it will ask for password. After providing correct password, the login becomes successful.
