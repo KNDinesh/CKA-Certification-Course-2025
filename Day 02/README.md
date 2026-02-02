@@ -146,3 +146,6 @@ docker ps -a
 ### **Final Notes**
 These basic Docker commands lay the foundation for building, tagging, pushing, and running containerized applications. Experiment with them to gain hands-on experience and better understand how containers and images work together.
 
+### **Additional Info**
+Instructions that create layers in Images: RUN, COPY, ADD, WORKDIR, VOLUME, EXPOSE.
+Instructions that does NOT create layers while creating Images: ARG, ENV, LABEL, ONBUILD, STOPSIGNAL, USER, CMD, ENTRYPOINT
