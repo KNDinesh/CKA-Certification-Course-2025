@@ -151,13 +151,25 @@ Even though everyone thinks that the Docker Hub is a place where images are stor
 
 Docker Hub > Repositories (ubuntu, nginx, mysql etc.,) > images (tags/versions - latest, v1.0, v2.0 etc.,)
 
-Instructions that create layers in Images: RUN, COPY, ADD, WORKDIR, VOLUME, EXPOSE.
-Instructions that does NOT create layers while creating Images: ARG, ENV, LABEL, ONBUILD, STOPSIGNAL, USER, CMD, ENTRYPOINT
+**Instructions that create layers in Images**: RUN, COPY, ADD, WORKDIR, VOLUME, EXPOSE.
+**Instructions that does NOT create layers while creating Images**: ARG, ENV, LABEL, ONBUILD, STOPSIGNAL, USER, CMD, ENTRYPOINT
 
 Suppose if we create a basic Dockerfile as mentioned below and try to build an image, both the images CREATED date will be same.
 ``` Dockerfile
 FROM ubuntu:latest
 CMD echo "Hello, Docker!"
 ```
-ubuntu in the above code is not an image but a REPOSITORY. latest is the version/tag.
 CMD will just update the metadata but will not add a layer to the base image.
+
+To add a layer to the base image and see the CREATED timestamp getting changed, we need to use one of **Instructions that create layers in Images** specified above. For example:
+
+```Dockerfile
+FROM ubuntu:latest
+RUN echo "I am adding a layer while building the image"
+CMD echo "Hello, Docker!"
+```
+
+If we execute the below command where Dockerfile is present, it will change the timestamp and add a layer to the base image.
+```bash
+docker build -t <image-name> .
+```
