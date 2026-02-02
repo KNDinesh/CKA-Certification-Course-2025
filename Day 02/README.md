@@ -173,3 +173,10 @@ If we execute the below command where Dockerfile is present, it will change the 
 ```bash
 docker build -t <image-name> .
 ```
+
+**To push the image directly to Dockerhub - Always name the image appropriately**
+
+=> For example, if we build an image with name (-t) **my-first-image** and wanted to push this image. We cannot push any image without **tag**. So, look for the tag of the image.
+=> If the Tag of the image is **latest**, use it at the end of the **<image-name>** ie., **my-first-image:latest**. Just adding image name and tag at the end will not be sufficient. 
+=> We also need to add the **dockerhub username** infront of the **<image-name>:<tag>** in my case it is **dinesh2758/my-first-image:latest**. If we already logged into docker hub, this will push the image.
+=> If not, use **docker login** command, open a web browser and enter **https://login.docker.com/activate** and provide the code provided in the console screen. Once logged in, push the image to dockerhub.
