@@ -180,3 +180,19 @@ docker build -t <image-name> .
 => If the Tag of the image is **latest**, use it at the end of the **<image-name>** ie., **my-first-image:latest**. Just adding image name and tag at the end will not be sufficient. 
 => We also need to add the **dockerhub username** infront of the **<image-name>:<tag>** in my case it is **dinesh2758/my-first-image:latest**. If we already logged into docker hub, this will push the image.
 => If not, use **docker login** command, open a web browser and enter **https://login.docker.com/activate** and provide the code provided in the console screen. Once logged in, push the image to dockerhub.
+
+**docker tag** is used to assign a new tag to an existing Docker image. This is helpful when you want to give the image a meaningful or specific name, or push the image to a different repository.
+**Syntax** - **docker tag SOURCE_IMAGE[:TAG] DOCKERHUB_USERNAME/TARGET_IMAGE[:TAG]** i.e., **docker tag my-first-image:latest dinesh2758/my-first-image:v1**
+
+Tagging doesn't create a new image; it just adds another reference (tag) to the same image ID - meaning **SOURCE_IMAGE ID and TARGET_IMAGE_ID** will be same.
+
+To verify the logged in status of dockerhub and its username. It works only if you have logged dockerhub in a linux desktop
+```bash
+cat ~/.docker/config.json
+```
+
+If dockerhub is installed on a ubuntu VM, then use
+```bash
+docker login --username <user name> --password stdin
+```
+Once click on enter, it will ask for password. After providing correct password, the login becomes successful.
