@@ -147,5 +147,17 @@ docker ps -a
 These basic Docker commands lay the foundation for building, tagging, pushing, and running containerized applications. Experiment with them to gain hands-on experience and better understand how containers and images work together.
 
 ### **Additional Info**
+Even though everyone thinks that the Docker Hub is a place where images are stored, it is actually a place where repositories are available. Inside those repositories images are present.
+
+Docker Hub > Repositories (ubuntu, nginx, mysql etc.,) > images (tags/versions - latest, v1.0, v2.0 etc.,)
+
 Instructions that create layers in Images: RUN, COPY, ADD, WORKDIR, VOLUME, EXPOSE.
 Instructions that does NOT create layers while creating Images: ARG, ENV, LABEL, ONBUILD, STOPSIGNAL, USER, CMD, ENTRYPOINT
+
+Suppose if we create a basic Dockerfile as mentioned below and try to build an image, both the images CREATED date will be same.
+``` Dockerfile
+FROM ubuntu:latest
+CMD echo "Hello, Docker!"
+```
+ubuntu in the above code is not an image but a REPOSITORY. latest is the version/tag.
+CMD will just update the metadata but will not add a layer to the base image.
