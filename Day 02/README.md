@@ -185,7 +185,10 @@ docker build -t <image-name> .
 => If not, use **docker login** command, open a web browser and enter **https://login.docker.com/activate** and provide the code provided in the console screen. Once logged in, push the image to dockerhub.
 
 **docker tag** is used to assign a new tag to an existing Docker image. This is helpful when you want to give the image a meaningful or specific name, or push the image to a different repository.
-**Syntax** - **docker tag SOURCE_IMAGE[:TAG] DOCKERHUB_USERNAME/TARGET_IMAGE[:TAG]** i.e., **docker tag my-first-image:latest dinesh2758/my-first-image:v1**
+
+**Syntax** - **docker tag SOURCE_IMAGE[:TAG] DOCKERHUB_USERNAME/TARGET_IMAGE[:TAG]** 
+
+i.e., **docker tag my-first-image:latest dinesh2758/my-first-image:v1**
 
 Tagging doesn't create a new image; it just adds another reference (tag) to the same image ID - meaning **SOURCE_IMAGE ID and TARGET_IMAGE_ID** will be same.
 
