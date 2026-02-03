@@ -152,6 +152,8 @@ Use **docker ps** to view the status of the running container. Access the site i
 
 ---
 
+<img width="961" height="417" alt="image" src="https://github.com/user-attachments/assets/6cd0990b-0b39-425d-be4a-48b919427e95" />
+
 ### **Shell Form vs Exec Form in `CMD`**
 
 | **Feature**              | **Shell Form**                                      | **Exec Form**                                      |
