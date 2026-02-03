@@ -14,6 +14,24 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
 ![Docker Flags Overview](/images/3a.png)
 
+### **Additional Info**
+
+# **Nginx** is not just a webserver, it is also used as a load balancer, caching server and also as a Kubernetes Ingress Controller (More about this in upcoming lectures).
+
+```bash
+docker run nginx
+```
+
+Docker daemon will look for the nginx image locally. If not found then download the image from docker hub. As we execute docker run docker daemon will download nginx and run as a container in foreground mode.
+
+Container will be up and running. Since the container is ran in foreground, we cannot see the status of running containers in the same terminal. To view the status open a new terminal and execute **docker ps**. 
+
+If we execute **CTRL + C** and exit, then the container will be go to exited status. Container will get exited as it has done the job for which it was started. This container was started to run a webserver. By default nginx webserver will run on port 80. Webserver was running but we have terminated that using **CTRL + C**. 
+
+If we want to have the container run in background (detached mode) then use docker flag (-d) **docker run -d nginx** along with port mapping and a custom name for the image as mentioned below.
+
+------
+
 ```bash
 docker run -d -p 8080:80 --name my-nginx-cont nginx
 ```
@@ -24,11 +42,27 @@ This command performs several key actions:
 2. **Port Mapping (`-p 8080:80`)**:  
    Maps port **80** in the container (default Nginx port) to port **8080** on your host machine.  
 3. **Container Name (`--name my-nginx-cont`)**:  
-   Assigns the container the name `my-nginx-cont` for easier identification and management.  
+   Assigns the container the name `my-nginx-cont` for easier identification and management.
 
 Once this command is executed, you can access the Nginx default page by opening `http://localhost:8080` in your browser.
 
----
+### **Additional Info**
+
+If someone is coming from outside, the first thing they will connect to is the host machine (in this case on Port 8080). After host machine they will connect to container (in this case nginx default Port 80).
+
+Once the request reaches my host machine on port 8080, it gets redirected to the default nginx webserver running on port 80. **Now Port 8080 on my host machine is reserved for this container running nginx.** 
+
+**We need to use a different port# while port mapping, if we want to run nginx on another container.** Example below:
+
+```bash
+docker run -d -p 8081:80 --name my-nginx-cont-01 nginx
+```
+
+The default nginx port number remains the same but the port number used by the host machine will change.
+
+Before proceeding further, go to app.py and understand the application code.
+
+------
 
 ### **Dockerfile Instructions and Their Purposes**
 
