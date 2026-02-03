@@ -101,10 +101,12 @@ Before proceeding further, go to app.py and understand the application code.
 Below is an example `Dockerfile` that builds a lightweight Python Flask application:
 
 ```dockerfile
-# Use a lightweight Python image as the base
+# Use a lightweight Python image as the base. Slim images does not contain the documentation and troubleshooting tooling like ping, DNS etc., which is why the are smaller in size.
+# Smaller images are less prone to vulnerabilities as their attack surface is less.  
 FROM python:3.9-slim  
 
-# Set the working directory inside the container
+# Set the working directory inside the container. WORKDIR creates the directory in this case /app if it doesn't exist and sets it as the default working directory.
+# If multiple WORKDIR instructions are used, each one is relative to the previous one unless an absolute path is specified.
 WORKDIR /app  
 
 # Copy the application file from the host to the container
@@ -119,6 +121,34 @@ EXPOSE 5000
 # Specify the default command to run the application
 CMD ["python", "app.py"]
 ```
+
+**Now that we have created the Docker file and the application code is also available, go ahead and build the docker Image.**
+
+```bash
+docker build -t my-python-image .
+```
+
+**Once the image is built then tag the image before pushing the image to docker hub.**
+
+```bash
+docker tag my-python-image dinesh2758/my-python-image:v1
+```
+
+To view the new image which is tagged and pushed, use **docker images** command.
+
+**Now that the image is tagged, go ahead and push the image to docker hub registry.**
+
+```bash
+docker push dinesh2758/my-python-image:v1
+```
+
+**Create a container using this image. Port mapping should be done carefully. As we already used 8080 & 8081 on our Host machine, we use 8082 while creating this container. Application listens on Port 5000**
+
+```bash
+docker run -d -p 8082:5000 --name my-python-cont dinesh2758/my-python-image:v1
+```
+
+Use **docker ps** to view the status of the running container. Access the site i.e., localhost:8082 in a web browser.
 
 ---
 
