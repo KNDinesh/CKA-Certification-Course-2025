@@ -119,7 +119,9 @@ RUN pip install flask
 EXPOSE 5000  
 
 # Specify the default command to run the application
-CMD ["python", "app.py"]
+CMD ["python", "app.py"] # exec form
+# CMD python app.py # shell form (execute either shell or exec form while building the image. exec form is recommended)
+
 ```
 
 **Now that we have created the Docker file and the application code is also available, go ahead and build the docker Image.**
@@ -153,6 +155,12 @@ Use **docker ps** to view the status of the running container. Access the site i
 ---
 
 <img width="961" height="417" alt="image" src="https://github.com/user-attachments/assets/6cd0990b-0b39-425d-be4a-48b919427e95" />
+
+To view the processes running on newly created container, there will only be one single process running i.e., python app.py. As the application was ran in exec form, we are only seeing one process. Refer Dockerfile in README.md to know the format of Shell form. It is better to avoid shell form whereever possible as it will add an additional process which cannot receives signals directly and can cause problems.
+
+```bash
+docker top my-python-cont
+```
 
 ### **Shell Form vs Exec Form in `CMD`**
 
