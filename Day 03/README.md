@@ -175,6 +175,13 @@ docker top my-python-cont
 | **Examples**             | `CMD echo "Hello World"`                           | `CMD ["echo", "Hello World"]`                      |
 
 ---
+
+**To login to the docker container running our Python Application, use below command. Also, it will land into /app WORKDIR as it is specified to be the default directory**
+
+```bash
+docker exec -it my-python-cont bash
+```
+
 ### **Conclusion**
 
 Understanding these Docker flags, Dockerfile instructions, and their nuances is critical for anyone working with containers. From running detached containers with port mappings to defining clear image build instructions in Dockerfiles, these concepts lay the foundation for effective containerized application development. Mastering the differences between `CMD` forms and leveraging Docker’s powerful commands will greatly enhance your ability to create scalable, efficient, and reliable containerized systems.  
