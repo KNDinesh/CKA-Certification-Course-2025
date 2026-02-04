@@ -4,3 +4,6 @@ FROM ubuntu:latest
 RUN apt update && apt install -y iputils-ping
 ENTRYPOINT ["ping", "-c", "4"]
 CMD ["google.com"]
+
+# Ping will always be the primary executable once we create the image and it by default always ping google.com. 
+# This can be replaced during runtime because CMD instruction can be overridden or replaced during docker run.
