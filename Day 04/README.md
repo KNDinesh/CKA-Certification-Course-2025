@@ -109,7 +109,17 @@ CMD and ENTRYPOINT may seem similar but they serve distinct purposes. The key di
 
 **Use CMD when you want to provide a default command that can be fully overriden. Use ENTRYPOINT, when you want a default command that appends arguments passed during docker run.**
 
-If we are designing an application that just pings something, then the ideal way to design that application is using both CMD and ENTRYPOINT in the same file. Refer **ec**.
+If we are designing an application that just pings something, then the ideal way to design that application is using both CMD and ENTRYPOINT in the same file. Refer **ec** for more details.
+
+**When you use the --entrypoint flag in the docker run command, it effectively overrides the ENTRYPOINT and CMD instructions specified within the Dockerfile. The CMD instruction becomes irrelevant as it's designed to provide arguments for the original ENTRYPOINT, which is no longer in effect.**
+
+Ex:
+
+```bash
+docker run --entrypoint ls ec-image -l
+```
+
+**The **-l** flag provided after **ls** is an argument specifically for the ls command. It instructs **ls** to display a long listing of files. One thing to notice is that we have CMD ["google.com"] in ec file. This defines google.com as the default argument for the ping command (if used with ENTRYPOINT). But since --entrypoint is used in the docker run command, CMD won't be used in this case.**    
 
 ---
 
@@ -141,10 +151,12 @@ While both `CMD` and `ENTRYPOINT` define what commands should run in a container
 - **List running processes in a container**: `docker top <container_id>`
 - **Stop a specific container**: `docker stop <container_id>`
 - **Start a stopped container**: `docker start <container_id>`
-- **Stop all running containers**: `docker stop $(docker ps -q)`
+- **Stop all running containers (quietly)**: `docker stop $(docker ps -q)`
+- **Remove all running and stopped containers (quietly)**: `docker rm -f $(docker ps -aq)` **Only for practicing**
 - **Restart a container**: `docker restart <container_id>`
 - **Delete a specific container**: `docker rm <container_id>`
 - **Delete all stopped containers**: `docker container prune`
+- **View aliases/options(flags) present for a specific command**: Ex: `docker image --help`, `docker rm --help` etc., **Useful Command** 
 
 ### **Image Management**
 - **Dangling images**: Images that are no longer tagged or associated with any container.
