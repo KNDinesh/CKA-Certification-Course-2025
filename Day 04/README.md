@@ -68,7 +68,7 @@ docker build -t entry-image -f /path/to/custom-dockerfile /path/to/build-context
 - The `-f` flag points to the Dockerfile's location.
 - The build context is specified as `/path/to/build-context`.
 
-Once the build is complete and image gets created, execute docker run command with docker image which got created using custom Dockerfile name. Use cmd file for practise.
+Once the build is complete and image gets created, execute docker run command with docker image which got created using custom Dockerfile name. Use cmd file for practice.
 
 ```bash
 docker images
@@ -86,6 +86,30 @@ docker run <docker-image-with-custom-Dockerfile-name> ping -c 4 amazon.com
 ```
 
 CMD instruction can be completely overriden by the command we supply. It cannot only be ping, we can execute any command to override it as we saw using ls command above.
+
+---
+
+Use entrypoint file now and build the image. Repeat same process like build the image and run the image similar to cmd. This container will also ping google.com and gets exited. 
+
+The major difference with CMD and ENTRYPOINT is that, using CMD we can **override** the executables over the command line docker run where as with ENTRYPOINT, we can **Append** another command in the executable. However if we use ping again to get appended then it will not work. 
+
+To do this in practice, create a new Dockerfile with some name and update the content below
+```Dockerfile
+FROM ubuntu:latest
+ENTRYPOINT ["echo", "This is ENTRYPOINT"]
+```
+
+Then build the image and run the container from that image. This will print "This is ENTRYPOINT" in the terminal.
+
+Now, if we want to append something, we can simple run the docker container again and this time while executing **docker run <image-name> "Append"** This will print the output as This is ENTRYPOINT Append in the terminal.
+
+When to use the CMD and when to use ENTRYPOINT?
+
+CMD and ENTRYPOINT may seem similar but they serve distinct purposes. The key difference is that, the ENTRYPOINT is used to specify the primary executable for the container essentially telling docker that the container is designed to run a specific application like we saw in the ping and echo examples. If you try to override it with another command or executable, it might not behave as expected or might fail like we saw in ping example. On the otherhand, CMD provides default arguments or a command that can be overriden if desired. 
+
+**Use CMD when you want to provide a default command that can be fully overriden. Use ENTRYPOINT, when you want a default command that appends arguments passed during docker run.**
+
+If we are designing an application that just pings something, then the ideal way to design that application is using both CMD and ENTRYPOINT in the same file. Refer **ec**.
 
 ---
 
