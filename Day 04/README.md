@@ -28,7 +28,7 @@ In certain cases, having multiple Dockerfiles is essential:
 
 ## **Building an Image with a Custom Dockerfile Name**
 
-To build an image using a custom-named Dockerfile, use the `-f` flag in the `docker build` command.
+To build an image using a custom-named Dockerfile, use the `-f` flag in the `docker build` command. Create basic docker file with any name and build the image. If we do not specify `-f` flag, while building the image, it will throw **failed to read dockerfile: no such file or directory error**. However as soon as we update the file with **FROM** (instruction) as the first word, VS Code understood that it could be a dockerfile and changes the icon.
 
 ### **Command Syntax**
 ```bash
@@ -39,6 +39,16 @@ docker build -t <image-name> -f <path-to-custom-dockerfile> <build-context>
 - **`-t <image-name>`**: Assigns a name (or tag) to the built image.
 - **`-f <path-to-custom-dockerfile>`**: Specifies the custom Dockerfile to use.
 - **`<build-context>`**: The directory containing files required for the build. This includes the Dockerfile (if not specified with `-f`) and any other files referenced during the build.
+
+=> As we saw in previous Dockerfile examples, we will use a (.) at the end of docker build command which itself is build context. 
+
+=> Anything which is required for building the image (in Python application example **python app.py** in last session) is the build context. 
+
+=> It is always recommended to only keep the necessary files and folders in build context while building the image. 
+
+=> Having README.md or any other file which is not related to application should not be maintained in build context. 
+
+=> Because docker copies everything that is present in the build context to the docker daemon.
 
 ---
 
@@ -57,6 +67,25 @@ docker build -t entry-image -f /path/to/custom-dockerfile /path/to/build-context
 ```
 - The `-f` flag points to the Dockerfile's location.
 - The build context is specified as `/path/to/build-context`.
+
+Once the build is complete and image gets created, execute docker run command with docker image which got created using custom Dockerfile name. Use cmd file for practise.
+
+```bash
+docker images
+docker run <docker-image-with-custom-Dockerfile-name>
+```
+
+Once container successfully ping google.com four times, it will go into exited state.
+
+If we execute **docker run <docker-image-with-custom-Dockerfile-name> ls** it will run the ls command in the container and the output will be printed in the terminal.
+
+We can also override this instead of google.com, we will ping amazon.com
+
+```bash
+docker run <docker-image-with-custom-Dockerfile-name> ping -c 4 amazon.com
+```
+
+CMD instruction can be completely overriden by the command we supply. It cannot only be ping, we can execute any command to override it as we saw using ls command above.
 
 ---
 
