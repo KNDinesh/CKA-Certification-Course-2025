@@ -77,7 +77,7 @@ docker run <docker-image-with-custom-Dockerfile-name>
 
 Once container successfully ping google.com four times, it will go into exited state.
 
-If we execute **docker run `<docker-image-with-custom-Dockerfile-name>` ls** it will run the ls command in the container and the output will be printed in the terminal.
+If we execute **docker run `<docker-image-with-custom-Dockerfile-name>` ls** it will overrie ping command and run the ls command in the container and the output will be printed in the terminal.
 
 We can also override this instead of google.com, we will ping amazon.com
 
