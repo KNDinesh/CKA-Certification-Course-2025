@@ -10,6 +10,8 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
 ---
 
+**This is a technique to build optimized docker images by seperating the **build** and **runtime** stages of an application.**
+
 ## **Compiled vs. Interpreted Languages**
 
 ### **Compiled Languages**
