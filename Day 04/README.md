@@ -46,11 +46,9 @@ Create basic docker file with any name and build the image. If we do not specify
 
 => Anything which is required for building the image (in Python application example **python app.py** in last session) is the build context. 
 
-=> It is always recommended to only keep the necessary files and folders in build context while building the image. 
+=> It is always recommended to only keep the necessary files and folders in build context while building the image. Docker copies everything that is present in the build context to the docker daemon if Dockerfile **ADD** instruction has (. .).
 
 => Having README.md or any other file which is not related to application should not be maintained in build context. 
-
-=> Because docker copies everything that is present in the build context to the docker daemon.
 
 ---
 
