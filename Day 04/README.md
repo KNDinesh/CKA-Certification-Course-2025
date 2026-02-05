@@ -10,6 +10,13 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
 ---
 
+**CMD**:
+Specifies the default command to run when the container starts. This can be overridden with docker run <image-name> <command>.
+Example: CMD ["python", "app.py"]
+
+**ENTRYPOINT**:
+Defines the command that will always execute when the container starts. You can append arguments via docker run <image-name> <arguments>. To completely override this, use the --entrypoint flag.
+Example: ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 ## **Specifying a Custom Dockerfile Name and Understanding the Build Command in Docker**
 
