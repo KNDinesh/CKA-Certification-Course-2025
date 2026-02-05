@@ -35,7 +35,7 @@ To build an image using a custom-named Dockerfile, use the `-f` flag in the `doc
 docker build -t <image-name> -f <path-to-custom-dockerfile> <build-context>
 ```
 
-Create basic docker file with any name and build the image. If we do not specify `-f` flag, while building the image, it will throw **failed to read dockerfile: no such file or directory error**. However as soon as we update the file with **FROM** (instruction) as the first word, VS Code understood that it could be a dockerfile and changes the icon.
+Create basic docker file with any name and build the image. If we do not specify `-f` flag, while building the image, it will throw **failed to read dockerfile: no such file or directory error**. However as soon as we update the file with **FROM** (instruction) as the first word, VS Code understood that it could be a dockerfile and changes the icon (if installed Docker extension).
 
 ### **Explanation of Flags**
 - **`-t <image-name>`**: Assigns a name (or tag) to the built image.
