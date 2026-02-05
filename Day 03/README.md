@@ -22,11 +22,11 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 docker run nginx
 ```
 
-Docker daemon will look for the nginx image locally. If not found then download the image from docker hub. As we execute docker run docker daemon will download nginx and run as a container in foreground mode.
+Docker daemon will look for the nginx image locally. If not found then it downloads the image from docker hub. As we execute docker run, docker daemon will download nginx and run as a container in foreground mode.
 
-Container will be up and running. Since the container is ran in foreground, we cannot see the status of running containers in the same terminal. To view the status open a new terminal and execute **docker ps**. 
+Container will be up and running. Since the container is ran in foreground, we cannot see the status of running containers in the same terminal. To view the status, open a new terminal and execute **docker ps**. 
 
-If we execute **CTRL + C** and exit, then the container will be go to exited status. Container will get exited as it has done the job for which it was started. This container was started to run a webserver. By default nginx webserver will run on port 80. Webserver was running but we have terminated that using **CTRL + C**. 
+If we execute **CTRL + C** and exit, then the container will go to exited status. Container will get exited as it has done the job for which it was started. This container was started to run a webserver. By default nginx webserver will run on port 80. Webserver was running but we have terminated that using **CTRL + C**. 
 
 If we want to have the container run in background (detached mode) then use docker flag (-d) **docker run -d nginx** along with port mapping and a custom name for the image as mentioned below.
 
