@@ -28,8 +28,9 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 - **More portable**, as they can run on different systems with the interpreter available.  
 - **Examples:** Python, JavaScript (Node.js), PHP, etc.
 
-**Compiled languages are like packing a ready-to-use machine.
-Interpreted languages are like carrying instructions and tools everywhere.**
+**Compiled languages are like packing a ready-to-use machine.**
+
+**Interpreted languages are like carrying instructions and tools everywhere.**
 
 ---
 
