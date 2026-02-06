@@ -36,15 +36,15 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
    **Python → Interpreted**
       
-  Code is read and executed at runtime
+  => Code is read and executed at runtime
 
-  Needs Python installed inside the container
+  => Needs Python installed inside the container
 
    **Java → Compiled (to bytecode)**
 
-  Code is compiled first
+  => Code is compiled first
 
-  Then executed by the JVM
+  => Then executed by the JVM
 
    **Python App (example)**
    
@@ -66,13 +66,13 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
    
    When the container starts:
 
-   OS starts
+   => OS starts
 
-   Python runtime starts
+   => Python runtime starts
 
-   Python reads app.py line by line
+   => Python reads app.py line by line
 
-   Executes it
+   => Executes it
 
    👉 No compile step
    
@@ -92,11 +92,11 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
    **Java (Compiled Language)**
 
-   Java is a two-step language:
+   **Java is a two-step language:**
 
-   Compile → .java → .class
+   => Compile → .java → .class
 
-   Run → JVM executes bytecode
+   => Run → JVM executes bytecode
 
    ```Java
    // App.java
@@ -129,17 +129,17 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
    **What’s happening here**
 
-   Build stage
+   => Build stage
 
-   javac compiles Java source code
+   => javac compiles Java source code
 
-   Output: App.class (bytecode)
+   => Output: App.class (bytecode)
 
-   Runtime stage
+   => Runtime stage
 
-   Only JVM + compiled bytecode
+   => Only JVM + compiled bytecode
 
-   JVM executes precompiled instructions
+   => JVM executes precompiled instructions
 
    👉 Compilation happens once
    
