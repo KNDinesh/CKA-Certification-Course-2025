@@ -32,6 +32,131 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
 **Interpreted languages are like carrying instructions and tools everywhere.**
 
+**Core Idea**
+
+   **Python → Interpreted**
+      
+      Code is read and executed at runtime
+
+      Needs Python installed inside the container
+
+   **Java → Compiled (to bytecode)**
+
+      Code is compiled first
+
+      Then executed by the JVM
+
+   **Python App (example)**
+   
+   ```bash
+   # app.py
+   print("Hello from Python")
+   ```
+
+   ```Python Dockerfile
+   FROM python:3.11
+
+   WORKDIR /app
+   COPY app.py .
+
+   CMD ["python", "app.py"]
+   ```
+
+   **What’s happening (Important)**
+   
+   When the container starts:
+
+   OS starts
+
+   Python runtime starts
+
+   Python reads app.py line by line
+
+   Executes it
+
+   👉 No compile step
+   
+   👉 Code is interpreted every time the container runs
+
+   **DevOps Takeaways (Python)**
+
+   ❌ Bigger image (Python runtime included)
+
+   ❌ Slower startup
+
+   ✅ Easy to change code
+
+   ✅ Great for scripts, automation, CI jobs
+
+   **If Python is missing → container fails**
+
+   **Java (Compiled Language)**
+
+   Java is a two-step language:
+
+   Compile → .java → .class
+
+   Run → JVM executes bytecode
+
+   ```Java
+   // App.java
+   public class App {
+      public static void main(String[] args) {
+         System.out.println("Hello from Java");
+         }
+   }
+   ```
+
+   **Java Dockerfile (Multi-stage – DevOps Standard)**
+   
+   ```Java Dockerfile
+   # ---- Build Stage ----
+   FROM openjdk:17-jdk AS builder
+
+   WORKDIR /app
+   COPY App.java .
+
+   RUN javac App.java
+
+   # ---- Runtime Stage ----
+   FROM openjdk:17-jre-slim
+
+   WORKDIR /app
+   COPY --from=builder /app/App.class .
+
+   CMD ["java", "App"]
+   ```
+
+   **What’s happening here**
+
+   Build stage
+
+   javac compiles Java source code
+
+   Output: App.class (bytecode)
+
+   Runtime stage
+
+   Only JVM + compiled bytecode
+
+   JVM executes precompiled instructions
+
+   👉 Compilation happens once
+   
+   👉 Runtime is faster and more predictable
+
+   **DevOps Takeaways (Java)**
+
+   ✅ Faster startup than Python
+
+   ✅ Better performance at scale
+
+   ❌ More complex Dockerfile
+
+   ❌ Needs rebuild for every code change
+
+   **If JVM is missing → container fails**
+
 ---
 
 # **Why Multi-Stage Builds? What Are Build And Runtime Stages?**
