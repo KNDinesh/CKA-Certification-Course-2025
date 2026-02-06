@@ -36,15 +36,15 @@ If this **repository** helps you, give it a ⭐ to show your support and help ot
 
    **Python → Interpreted**
       
-      Code is read and executed at runtime
+  Code is read and executed at runtime
 
-      Needs Python installed inside the container
+  Needs Python installed inside the container
 
    **Java → Compiled (to bytecode)**
 
-      Code is compiled first
+  Code is compiled first
 
-      Then executed by the JVM
+  Then executed by the JVM
 
    **Python App (example)**
    
