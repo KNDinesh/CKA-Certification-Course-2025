@@ -142,11 +142,11 @@ It only knows the Service name:
 
 Important:
 
-   **This IP is virtual**
+   * This IP is virtual
    
-   **No Pod actually owns this IP**
+   * No Pod actually owns this IP
    
-   **It represents the Service**
+   * It represents the Service
 
 At this point:
 
