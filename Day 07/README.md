@@ -96,31 +96,31 @@ Let’s walk through this step by step, in simple language, but without losing t
 
 We’ll use your example:
 
-Python frontend Pod
+   Python frontend Pod
 
-Redis exposed via a Service
+   Redis exposed via a Service
 
-DNS handled by CoreDNS
+   DNS handled by CoreDNS
 
-Traffic handled by kube-proxy
+   Traffic handled by kube-proxy
 
-Networking provided by a CNI plugin like Calico or Flannel
+   Networking provided by a CNI plugin like Calico or Flannel
 
 🌐 Big Picture (What’s Really Happening)
 
 When the Python frontend connects to Redis using:
 
-redis.default.svc.cluster.local
+   redis.default.svc.cluster.local
 
 This is what happens behind the scenes:
 
-DNS converts name → ClusterIP
-
-kube-proxy converts ClusterIP → Pod IP
-
-CNI moves packets between Pods
-
-Redis replies directly
+   1. DNS converts name → ClusterIP
+   
+   2. kube-proxy converts ClusterIP → Pod IP
+   
+   3. CNI moves packets between Pods
+   
+   4. Redis replies directly
 
 Now let’s expand each piece clearly.
 
@@ -130,29 +130,29 @@ The Python frontend does not know Redis Pod IPs.
 
 It only knows the Service name:
 
-redis.default.svc.cluster.local
+      redis.default.svc.cluster.local
 
 🔹 The frontend asks DNS:
 
-“What IP is this name?”
+* “What IP is this name?”
 
 🔹 CoreDNS responds with:
 
-The Service’s ClusterIP (example: 10.96.0.25)
+* The Service’s ClusterIP (example: 10.96.0.25)
 
 Important:
 
-This IP is virtual
-
-No Pod actually owns this IP
-
-It represents the Service
+   This IP is virtual
+   
+   No Pod actually owns this IP
+   
+   It represents the Service
 
 At this point:
 
 Python frontend thinks it is talking to:
 
-10.96.0.25:6379
+      10.96.0.25:6379
 
 But that IP is not a real Pod.
 
@@ -164,13 +164,13 @@ kube-proxy runs on every node.
 
 When the frontend sends traffic to:
 
-Destination: 10.96.0.25:6379
+      Destination: 10.96.0.25:6379
 
 kube-proxy has already installed iptables or IPVS rules on the node.
 
 These rules say:
 
-“If traffic is going to this ClusterIP, redirect it to one of the real Redis Pods.”
+* “If traffic is going to this ClusterIP, redirect it to one of the real Redis Pods.”
 
 🔁 What kube-proxy Actually Does
 
@@ -178,9 +178,9 @@ It checks the Service’s Endpoints object.
 
 That object contains:
 
-Redis Pod 1 → 10.244.1.10
-Redis Pod 2 → 10.244.2.15
-Redis Pod 3 → 10.244.1.22
+      Redis Pod 1 → 10.244.1.10
+      Redis Pod 2 → 10.244.2.15
+      Redis Pod 3 → 10.244.1.22
 
 kube-proxy then:
 
@@ -196,32 +196,34 @@ Only routes to Ready Pods
 
 It changes:
 
-Destination IP:
-10.96.0.25  →  10.244.1.10
+      Destination IP:
+      10.96.0.25  →  10.244.1.10
 
 Now the packet is heading to a real Redis Pod.
 
 Important:
 
-kube-proxy does NOT continuously handle packets.
-It installs rules in the Linux kernel.
-The kernel forwards traffic.
+   kube-proxy does NOT continuously handle packets.
+   
+   It installs rules in the Linux kernel.
+   
+   The kernel forwards traffic.
 
 3️⃣ Step 3 — CNI Handles the Actual Networking
 
 Now the packet must physically reach:
 
-10.244.1.10 (Redis Pod)
+      10.244.1.10 (Redis Pod)
 
 This is where CNI comes in.
 
 CNI already ensured:
 
-Every Pod has a unique IP
-
-Nodes know how to route Pod CIDRs
-
-Networking between nodes works
+   Every Pod has a unique IP
+   
+   Nodes know how to route Pod CIDRs
+   
+   Networking between nodes works
 
 📍 Case A: Redis Pod on Same Node
 
