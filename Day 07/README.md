@@ -96,15 +96,15 @@ Let’s walk through this step by step, in simple language, but without losing t
 
 We’ll use your example:
 
-   Python frontend Pod
+   **Python frontend Pod**
 
-   Redis exposed via a Service
+   **Redis exposed via a Service**
 
-   DNS handled by CoreDNS
+   **DNS handled by CoreDNS**
 
-   Traffic handled by kube-proxy
+   **Traffic handled by kube-proxy**
 
-   Networking provided by a CNI plugin like Calico or Flannel
+   **Networking provided by a CNI plugin like Calico or Flannel**
 
 🌐 Big Picture (What’s Really Happening)
 
@@ -142,11 +142,11 @@ It only knows the Service name:
 
 Important:
 
-   This IP is virtual
+   **This IP is virtual**
    
-   No Pod actually owns this IP
+   **No Pod actually owns this IP**
    
-   It represents the Service
+   **It represents the Service**
 
 At this point:
 
@@ -160,7 +160,7 @@ That’s where kube-proxy comes in.
 
 2️⃣ Step 2 — kube-proxy Intercepts the Traffic
 
-kube-proxy runs on every node.
+* kube-proxy runs on every node.
 
 When the frontend sends traffic to:
 
@@ -203,11 +203,11 @@ Now the packet is heading to a real Redis Pod.
 
 Important:
 
-   kube-proxy does NOT continuously handle packets.
+   **kube-proxy does NOT continuously handle packets.**
    
-   It installs rules in the Linux kernel.
+   **It installs rules in the Linux kernel.**
    
-   The kernel forwards traffic.
+   **The kernel forwards traffic.**
 
 3️⃣ Step 3 — CNI Handles the Actual Networking
 
@@ -231,15 +231,15 @@ If both frontend and Redis are on the same node:
 
 Traffic flows like this:
 
-Frontend Pod
-   ↓
-veth
-   ↓
-Linux bridge (cni0)
-   ↓
-veth
-   ↓
-Redis Pod
+      Frontend Pod
+         ↓
+      veth
+         ↓
+      Linux bridge (cni0)
+         ↓
+      veth
+         ↓
+      Redis Pod
 
 Everything stays inside the node.
 
@@ -251,35 +251,35 @@ If Redis Pod is on another node:
 
 Traffic flows like this:
 
-Frontend Pod
-   ↓
-Node A
-   ↓
-Cluster Network
-   ↓
-Node B
-   ↓
-Redis Pod
+      Frontend Pod
+         ↓
+      Node A
+         ↓
+      Cluster Network
+         ↓
+      Node B
+         ↓
+      Redis Pod
 
 How this works depends on CNI:
 
-Overlay (VXLAN encapsulation)
-
-Or BGP routing (direct routing)
+   **Overlay (VXLAN encapsulation)**
+   
+   **Or BGP routing (direct routing)**
 
 But the key idea:
 
 👉 CNI configured routing so nodes know how to reach each other’s Pod IP ranges.
 
-After setup, the Linux kernel handles forwarding.
-
-CNI is not actively moving packets.
+   **After setup, the Linux kernel handles forwarding.**
+   
+   **CNI is not actively moving packets.**
 
 4️⃣ Step 4 — Redis Responds
 
 Now Redis receives the request.
 
-It processes it and sends back a response.
+   It processes it and sends back a response.
 
 Here’s something important:
 
@@ -289,11 +289,11 @@ Why?
 
 Because:
 
-The connection is already established
+   **The connection is already established**
 
-Connection tracking remembers the original source
+   **Connection tracking remembers the original source**
 
-The reply goes directly back to the frontend Pod IP
+   **The reply goes directly back to the frontend Pod IP**
 
 The return path uses the same CNI routing setup.
 
@@ -301,11 +301,11 @@ The return path uses the same CNI routing setup.
 
 kube-proxy only acts when traffic is going to:
 
-ClusterIP
+      ClusterIP
 
 But Redis replies directly to:
 
-Frontend Pod IP
+      Frontend Pod IP
 
 That is a real Pod IP.
 
@@ -314,67 +314,67 @@ So no Service abstraction is involved on return.
 🎯 What Each Component Is Responsible For
 🧩 CoreDNS
 
-Converts Service name → ClusterIP
+   **Converts Service name → ClusterIP**
 
-Purely name resolution
+   **Purely name resolution**
 
 🚦 kube-proxy
 
-Watches Services & Endpoints
+* Watches Services & Endpoints
 
-Installs iptables/IPVS rules
+* Installs iptables/IPVS rules
 
-Performs:
+* Performs:
 
-Load balancing
-
-Traffic redirection
-
-Service abstraction
+   * Load balancing
+   
+   * Traffic redirection
+   
+   * Service abstraction
 
 Acts like:
 
-Traffic director for Services
+   * Traffic director for Services
 
 🌐 CNI
 
-Assigns Pod IPs
+   * Assigns Pod IPs
 
-Creates veth pairs
+   * Creates veth pairs
 
-Configures bridges or routing
+   * Configures bridges or routing
 
-Enables Pod-to-Pod communication
+   * Enables Pod-to-Pod communication
 
-Enables cross-node networking
+   * Enables cross-node networking
 
 Acts like:
 
-The actual road system
+   The actual road system
 
 📦 Redis Service
 
-Stable virtual IP
+   * Stable virtual IP
 
-Hides changing Pod IPs
+   * Hides changing Pod IPs
 
-Gives consistent DNS name
+   * Gives consistent DNS name
 
 Acts like:
 
-A stable front door
+   A stable front door
 
 🔄 Full Flow Summary (Very Simple Version)
 
-Python asks DNS → gets ClusterIP
+1. Python asks DNS → gets ClusterIP
 
-kube-proxy intercepts → chooses Redis Pod
+2. kube-proxy intercepts → chooses Redis Pod
 
-CNI routes packet → reaches Redis Pod
+3. CNI routes packet → reaches Redis Pod
 
-Redis replies directly → back to frontend
+4. Redis replies directly → back to frontend
 
-kube-proxy not involved in response
+5. kube-proxy not involved in response
 
 ## Example Flow: Communication Between Pods
 
