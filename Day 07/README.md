@@ -96,21 +96,21 @@ Let’s walk through this step by step, in simple language, but without losing t
 
 We’ll use your example:
 
-   **Python frontend Pod**
+   * Python frontend Pod
 
-   **Redis exposed via a Service**
+   * Redis exposed via a Service
 
-   **DNS handled by CoreDNS**
+   * DNS handled by CoreDNS
 
-   **Traffic handled by kube-proxy**
+   * Traffic handled by kube-proxy
 
-   **Networking provided by a CNI plugin like Calico or Flannel**
+   * Networking provided by a CNI plugin like Calico or Flannel
 
 🌐 Big Picture (What’s Really Happening)
 
 When the Python frontend connects to Redis using:
 
-   redis.default.svc.cluster.local
+      redis.default.svc.cluster.local
 
 This is what happens behind the scenes:
 
@@ -203,11 +203,11 @@ Now the packet is heading to a real Redis Pod.
 
 Important:
 
-   **kube-proxy does NOT continuously handle packets.**
+   * kube-proxy does NOT continuously handle packets.
    
-   **It installs rules in the Linux kernel.**
+   * It installs rules in the Linux kernel.
    
-   **The kernel forwards traffic.**
+   * The kernel forwards traffic.
 
 3️⃣ Step 3 — CNI Handles the Actual Networking
 
@@ -219,11 +219,11 @@ This is where CNI comes in.
 
 CNI already ensured:
 
-   Every Pod has a unique IP
+   * Every Pod has a unique IP
    
-   Nodes know how to route Pod CIDRs
+   * Nodes know how to route Pod CIDRs
    
-   Networking between nodes works
+   * Networking between nodes works
 
 📍 Case A: Redis Pod on Same Node
 
@@ -263,23 +263,23 @@ Traffic flows like this:
 
 How this works depends on CNI:
 
-   **Overlay (VXLAN encapsulation)**
+   * Overlay (VXLAN encapsulation)
    
-   **Or BGP routing (direct routing)**
+   * Or BGP routing (direct routing)
 
 But the key idea:
 
 👉 CNI configured routing so nodes know how to reach each other’s Pod IP ranges.
 
-   **After setup, the Linux kernel handles forwarding.**
+After setup, the Linux kernel handles forwarding.
    
-   **CNI is not actively moving packets.**
+CNI is not actively moving packets.
 
 4️⃣ Step 4 — Redis Responds
 
 Now Redis receives the request.
 
-   It processes it and sends back a response.
+It processes it and sends back a response.
 
 Here’s something important:
 
@@ -289,11 +289,11 @@ Why?
 
 Because:
 
-   **The connection is already established**
+   * The connection is already established
 
-   **Connection tracking remembers the original source**
+   * Connection tracking remembers the original source
 
-   **The reply goes directly back to the frontend Pod IP**
+   * The reply goes directly back to the frontend Pod IP
 
 The return path uses the same CNI routing setup.
 
@@ -314,9 +314,9 @@ So no Service abstraction is involved on return.
 🎯 What Each Component Is Responsible For
 🧩 CoreDNS
 
-   **Converts Service name → ClusterIP**
+   * Converts Service name → ClusterIP
 
-   **Purely name resolution**
+   * Purely name resolution
 
 🚦 kube-proxy
 
